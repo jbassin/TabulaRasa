@@ -1,0 +1,465 @@
+{
+  "class": "Bard",
+  "hit_dice": 8,
+  "armor": "light",
+  "weapons": [
+    "simple weapons",
+    "hand crossbows",
+    "longswords",
+    "rapiers",
+    "shortswords"
+  ],
+  "tools": [
+    "instrument",
+    "instrument",
+    "instrument"
+  ],
+  "saving_throws": [
+    "dex",
+    "cha"
+  ],
+  "skills": [
+    "choose_any",
+    "choose_any",
+    "choose_any"
+  ],
+  "starting_equipment": [
+    "rapier or longsword or simple",
+    "diplomat's pack or entertainer's pack",
+    "instrument",
+    "leather armor",
+    "dagger"
+  ],
+  "levels": [
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 2
+        },
+        "spells": {
+          "bard": 4
+        },
+        "spell_levels": [
+          2,0,0,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Bardic Inspiration": {
+          "die_value": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6.",
+          "rules": "Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the DM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.",
+          "uses": "You can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          3,0,0,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Song of Rest": {
+          "die_value": "You can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points by spending Hit Dice at the end of the short rest, each of those creatures regains an extra 1d6 hit points."
+        }
+      },
+      "scores": {
+        "not_prof": "half_prof"
+      },
+      "skills": []
+    },
+    {
+      "subclass": true,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,2,0,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": [
+        "expertise_choose_any",
+        "expertise_choose_any"
+      ]
+    },
+    {
+      "subclass": false,
+      "asi": true,
+      "magic": {
+        "cantrips": {
+          "bard": 1
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,0,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": 3,
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,2,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Bardic Inspiration": {
+          "die_value": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d8.",
+          "uses": "You can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a short or long rest."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,0,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Countercharm": {
+          "rules": "You gain the ability to use musical notes or words of power to disrupt mind-influencing effects. As an action, you can start a performance that lasts until the end of your next turn. During that time, you and any friendly creatures within 30 feet of you have advantage on saving throws against being frightened or charmed. A creature must be able to hear you to gain this benefit. The performance ends early if you are incapacitated or silenced or if you voluntarily end it (no action required)."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,1,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": true,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": 11,
+        "spell_levels": [
+          4,3,3,2,0,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,3,1,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Song of Rest": {
+          "die_value": "You can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points by spending Hit Dice at the end of the short rest, each of those creatures regains an extra 1d8 hit points."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 1
+        },
+        "spells": {
+          "bard": 2,
+          "any": 2
+        },
+        "spell_levels": [
+          4,3,3,3,2,0,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Bardic Inspiration": {
+          "die_value": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d10."
+        }
+      },
+      "scores": {},
+      "skills": [
+        "expertise_choose_any",
+        "expertise_choose_any"
+      ]
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": true,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 0
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,0,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,1,0,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Song of Rest": {
+          "die_value": "You can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points by spending Hit Dice at the end of the short rest, each of those creatures regains an extra 1d10 hit points."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 2,
+          "any": 2
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,1,0,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,1,1,0
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Bardic Inspiration": {
+          "die_value": "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d12."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": true,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 0
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,1,1,0
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 1
+        },
+        "spell_levels": [
+          4,3,3,3,2,1,1,1,1
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Song of Rest": {
+          "die_value": "You can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points by spending Hit Dice at the end of the short rest, each of those creatures regains an extra 1d12 hit points."
+        }
+      },
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 2,
+          "any": 2
+        },
+        "spell_levels": [
+          4,3,3,3,3,1,1,1,1
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": true,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 0
+        },
+        "spell_levels": [
+          4,3,3,3,3,2,1,1,1
+        ],
+        "ritual": true
+      },
+      "features": {},
+      "scores": {},
+      "skills": []
+    },
+    {
+      "subclass": false,
+      "asi": false,
+      "magic": {
+        "cantrips": {
+          "bard": 0
+        },
+        "spells": {
+          "bard": 0
+        },
+        "spell_levels": [
+          4,3,3,3,3,2,2,1,1
+        ],
+        "ritual": true
+      },
+      "features": {
+        "Superior Inspiration": {
+          "rules": "When you roll initiative and have no uses of Bardic Inspiration left, you regain one use."
+        }
+      },
+      "scores": {},
+      "skills": []
+    }
+  ]
+}
