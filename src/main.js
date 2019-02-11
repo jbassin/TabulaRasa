@@ -5,7 +5,9 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
-require('./scripts/init');
+const load = require('./scripts/init');
+
+console.log(load);
 
 new Vue({
   router,

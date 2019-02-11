@@ -14,6 +14,7 @@ const print = R.curry((debug, item) => {
   if (debug) {
     console.log(item);
   }
+  return item;
 })(DEBUG);
 
 const download = (url, loc) => {
@@ -45,15 +46,24 @@ if (notExists(ITEMS_FILE)) {
   download(ITEMS_URL, ITEMS_FILE);
 }
 
-const classFile = classPath => path.join(dataFile('classes'), classPath);
-const classFilePaths = fs.readdirSync(dataFile('classes'));
-const readClasses = (acc, con) => {
-  const file = fs.readFileSync(classFile(con), 'utf-8');
+const readAllFiles = R.curry((f, acc, con) => {
+  const file = fs.readFileSync(f(con), 'utf-8');
   const classJson = JSON.parse(file);
   return R.append(classJson, acc);
+});
+
+const readAllJSON = (dirName) => {
+  const filePathFactory = filePath => path.join(dataFile(dirName), filePath);
+  const filePathFinder = fs.readdirSync(dataFile(dirName));
+  const readFiles = readAllFiles(filePathFactory);
+  const items = R.reduce(readFiles, [], filePathFinder);
+  return print(items);
 };
-const classes = R.reduce(readClasses, [], classFilePaths);
+
+const classes = readAllJSON('classes');
+const subclasses = readAllJSON('subclasses');
 
 module.exports = {
   classes,
+  subclasses,
 };
