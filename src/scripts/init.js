@@ -1,5 +1,4 @@
 const fs = require('fs');
-const https = require('https');
 const path = require('path');
 const os = require('os');
 const R = require('ramda');
@@ -17,13 +16,6 @@ module.exports = (DEBUG) => {
     return item;
   })(DEBUG);
 
-  const download = (url, loc) => {
-    const file = fs.createWriteStream(loc);
-    https.get(url, (response) => {
-      response.pipe(file);
-    });
-  };
-
   const exists = filePath => fs.existsSync(filePath);
   const notExists = filePath => R.not(exists(filePath));
 
@@ -37,13 +29,6 @@ module.exports = (DEBUG) => {
   if (notExists(DATA_DIR)) {
     print('Can\'t find the data folder, creating one!');
     fs.mkdirSync(DATA_DIR);
-  }
-
-  const ITEMS_URL = 'https://raw.githubusercontent.com/TheGiddyLimit/TheGiddyLimit.github.io/master/data/items.json';
-  const ITEMS_FILE = dataFile('items.json');
-  if (notExists(ITEMS_FILE)) {
-    print('Can\'t find the info file! Fetching from the interwebs!');
-    download(ITEMS_URL, ITEMS_FILE);
   }
 
   const readAllFiles = R.curry((f, acc, con) => {
@@ -62,9 +47,11 @@ module.exports = (DEBUG) => {
 
   const classes = readAllJSON('classes');
   const subclasses = readAllJSON('subclasses');
+  const items = readAllJSON('items');
 
   return {
     classes,
     subclasses,
+    items,
   };
 };
