@@ -44,3 +44,16 @@ if (notExists(ITEMS_FILE)) {
   print('Can\'t find the info file! Fetching from the interwebs!');
   download(ITEMS_URL, ITEMS_FILE);
 }
+
+const classFile = classPath => path.join(dataFile('classes'), classPath);
+const classFilePaths = fs.readdirSync(dataFile('classes'));
+const readClasses = (acc, con) => {
+  const file = fs.readFileSync(classFile(con), 'utf-8');
+  const classJson = JSON.parse(file);
+  return R.append(classJson, acc);
+};
+const classes = R.reduce(readClasses, [], classFilePaths);
+
+module.exports = {
+  classes,
+};
