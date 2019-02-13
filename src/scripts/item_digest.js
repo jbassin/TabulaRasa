@@ -6,14 +6,36 @@ const R = require('ramda');
 const HOME_DIR = os.homedir();
 const MAIN_DIR = path.join(HOME_DIR, '.tabularasa');
 const DATA_DIR = path.join(MAIN_DIR, 'data');
-const ITEM_DIR = path.join(DATA_DIR, 'items');
+// const ITEM_DIR = path.join(DATA_DIR, 'items');
 
 const file = fs.readFileSync(path.join(DATA_DIR, 'items.json'), 'utf-8');
+const items = JSON.parse(file);
+console.log(items);
 
 const sanitize = R.curry((givenValue, defaultValue) => (givenValue === null ? defaultValue : givenValue));
-const blankS = sanitize(R.__, '');
-const zeroS = sanitize(R.__, '0');
-const arrayS = sanitize(R.__, []);
+const safeBlank = sanitize(R.__, '');
+const safeZeroString = sanitize(R.__, '0');
+const safeZeroInt = sanitize(R.__, 0);
+const safeArray = sanitize(R.__, []);
+const safeFalse = sanitize(R.__, false);
+
+const armorType = (type) => {
+  const typesafeType = type.toUpperCase();
+  switch (typesafeType) {
+    case 'LA': return 'Light Armor';
+    case 'MA': return 'Medium Armor';
+    case 'HA': return 'Heavy Armor';
+    default: return 'Armor';
+  }
+};
+const safeArmorType = type => armorType(safeBlank(type));
+
+const armorFormat = item => ({
+  isArmor: safeFalse(item.armor),
+  type: safeArmorType(item.type),
+  ac: safeBlank(item.ac),
+  stealthDisadvantage: safeFalse(item.stealth),
+});
 
 const weaponType = (type) => {
   const typesafeType = type.toUpperCase();
@@ -25,7 +47,7 @@ const weaponType = (type) => {
     default: return 'Unknown';
   }
 };
-const safeWeaponType = type => blankS(weaponType(type));
+const safeWeaponType = type => weaponType(safeBlank(type));
 
 const properties = propertyArray => R.reduce((acc, con) => {
   const typesafeProperty = con.toUpperCase();
@@ -46,22 +68,38 @@ const properties = propertyArray => R.reduce((acc, con) => {
     default: return R.append('Unknown', acc);
   }
 }, [], propertyArray);
-const safeWeaponProperties = props => arrayS(properties(props));
+const safeWeaponProperties = props => properties(safeArray(props));
 
 const weaponFormat = item => ({
-  isWeapon: blankS(item.dmg1) !== '',
+  isWeapon: safeFalse(item.weapon),
+  category: safeBlank(item.weaponCategory),
   damageType: safeWeaponType(item.dmgType),
-  baseDamage: blankS(item.dmg1),
-  twoHandedDamage: blankS(item.dmg2),
+  baseDamage: safeBlank(item.dmg1),
+  twoHandedDamage: safeBlank(item.dmg2),
   properties: safeWeaponProperties(item.properties),
-  technology: blankS(item.technology),
+  technology: safeBlank(item.technology),
+  range: safeBlank(item.range),
+});
+
+const magicFormat = item => ({
+  isMagic: safeBlank(item.tier) !== '',
+  needsAttunement: safeFalse(item.reqAttune) !== false,
+  isWondrous: safeFalse(item.wondrous),
+  charges: safeZeroInt(item.charges),
 });
 
 const itemFormat = item => ({
-  name: blankS(item.name),
-  rarity: blankS(item.rarity),
-  type: blankS(item.type),
-  weight: zeroS(item.weight),
-  value: zeroS(item.value),
+  name: safeBlank(item.name),
+  rarity: safeBlank(item.rarity),
+  type: safeBlank(item.type),
+  weight: safeZeroString(item.weight),
+  value: safeZeroString(item.value),
   weapon: weaponFormat(item),
+  armor: armorFormat(item),
+  magic: magicFormat(item),
+  age: safeBlank(item.age),
+  modifier: safeBlank(item.modifier.__text),
+  source: safeBlank(item.source),
 });
+
+console.log(itemFormat);
