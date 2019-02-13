@@ -1,29 +1,12 @@
-# tabula-rasa
+# Tabula Rasa
+A way to remember. An infinitely homebrewable character sheet for D&D 5th Edition.
 
-## Project setup
+## How to build
+You should have node and npm/yarn installed. It's recommended that you use yarn to build this project.
 ```
-yarn install
+yarn run electron:build
 ```
-
-### Compiles and hot-reloads for development
+### Compiling for Developer Testing
 ```
-yarn run serve
+yarn run electron:serve
 ```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
