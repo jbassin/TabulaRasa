@@ -140,7 +140,9 @@ const entrySmoother = (entry) => {
 const removeBadItems = (entries) => {
   if (typeof entries === 'string') return entries;
   const fixedItems = R.filter(entry => safeBlank(entry.type) !== 'irrelevant', entries);
-  return R.reduce((acc, con) => R.append(removeBadItems(safeArray(con.entry)), acc), [], fixedItems);
+  return R.map(item => R.assoc('entry', removeBadItems(safeArray(item.entry)), item), fixedItems);
+  // return R.reduce((acc, con) => R.append(removeBadItems(safeArray(con.entry)), acc), [], fixedItems);
+  // return fixedItems;
 };
 
 const itemFormat = item => ({
