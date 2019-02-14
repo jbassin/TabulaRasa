@@ -8,27 +8,29 @@ const MAIN_DIR = path.join(HOME_DIR, '.tabularasa');
 const DATA_DIR = path.join(MAIN_DIR, 'data');
 // const ITEM_DIR = path.join(DATA_DIR, 'items');
 
-const file = fs.readFileSync(path.join(DATA_DIR, 'items.json'), 'utf-8');
-const items = JSON.parse(file);
-console.log(items);
+const itemFile = fs.readFileSync(path.join(DATA_DIR, 'items.json'), 'utf-8');
+const basicItemFile = fs.readFileSync(path.join(DATA_DIR, 'other_items.json'), 'utf-8');
+const importedItems = JSON.parse(itemFile);
+const importedBasicItems = JSON.parse(basicItemFile);
+const items = R.concat(importedBasicItems.basicitem, importedItems.item);
 
-const sanitize = R.curry((givenValue, defaultValue) => (givenValue === null ? defaultValue : givenValue));
-const safeBlank = sanitize(R.__, '');
-const safeZeroString = sanitize(R.__, '0');
-const safeZeroInt = sanitize(R.__, 0);
-const safeArray = sanitize(R.__, []);
-const safeFalse = sanitize(R.__, false);
+const sanitize = R.curry((defaultValue, givenValue) => (givenValue == null ? defaultValue : givenValue));
+const safeBlank = sanitize('');
+const safeZeroString = sanitize('0');
+const safeZeroInt = sanitize(0);
+const safeArray = sanitize([]);
+const safeFalse = sanitize(false);
+const safeObject = sanitize({});
 
 const armorType = (type) => {
-  const typesafeType = type.toUpperCase();
-  switch (typesafeType) {
+  switch (type) {
     case 'LA': return 'Light Armor';
     case 'MA': return 'Medium Armor';
     case 'HA': return 'Heavy Armor';
     default: return 'Armor';
   }
 };
-const safeArmorType = type => armorType(safeBlank(type));
+const safeArmorType = type => armorType(safeBlank(type).toUpperCase());
 
 const armorFormat = item => ({
   isArmor: safeFalse(item.armor),
@@ -38,8 +40,7 @@ const armorFormat = item => ({
 });
 
 const weaponType = (type) => {
-  const typesafeType = type.toUpperCase();
-  switch (typesafeType) {
+  switch (type) {
     case 'S': return 'Slashing';
     case 'P': return 'Piercing';
     case 'B': return 'Bludgeoning';
@@ -47,7 +48,7 @@ const weaponType = (type) => {
     default: return 'Unknown';
   }
 };
-const safeWeaponType = type => weaponType(safeBlank(type));
+const safeWeaponType = type => weaponType(safeBlank(type).toUpperCase());
 
 const properties = propertyArray => R.reduce((acc, con) => {
   const typesafeProperty = con.toUpperCase();
@@ -76,8 +77,7 @@ const weaponFormat = item => ({
   damageType: safeWeaponType(item.dmgType),
   baseDamage: safeBlank(item.dmg1),
   twoHandedDamage: safeBlank(item.dmg2),
-  properties: safeWeaponProperties(item.properties),
-  technology: safeBlank(item.technology),
+  properties: safeWeaponProperties(item.property),
   range: safeBlank(item.range),
 });
 
@@ -87,6 +87,61 @@ const magicFormat = item => ({
   isWondrous: safeFalse(item.wondrous),
   charges: safeZeroInt(item.charges),
 });
+
+const entryType = (type) => {
+  switch (type) {
+    case 'table': return 'table';
+    case 'item':
+    case 'entries': return 'text';
+    case 'list': return 'list';
+    default: return 'irrelevant';
+  }
+};
+
+const entrySanitizer = (text) => {
+  const directives = R.match(/{@(.*?)\s(.*?)}/g, text);
+  const replaceables = R.reduce((acc, con) => {
+    const textFinder = R.pipe(R.split(' '), R.tail, R.map(R.replace(/}/g, '')), R.join(' '), R.split('|'), R.head);
+    return R.append({
+      match: con,
+      text: textFinder(con),
+    }, acc);
+  }, [], directives);
+  return R.reduce((acc, con) => R.replace(con.match, con.text, acc), text, replaceables);
+};
+
+const colLabelFormatter = (colLabels) => {
+  const safeColLabels = safeArray(colLabels);
+  if (R.isEmpty(safeColLabels)) {
+    return safeColLabels;
+  }
+  return [safeColLabels];
+};
+
+const entrySmoother = (entry) => {
+  if (typeof entry === 'object') {
+    return {
+      type: entryType(safeBlank(entry.type)),
+      header: safeBlank(entry.name),
+      entry: R.map(entrySmoother, safeArray(entry.entries)),
+      rows: R.concat(colLabelFormatter(entry.colLabels), safeArray(entry.rows)),
+      items: R.map(entrySmoother, safeArray(entry.items)),
+    };
+  }
+  return {
+    type: 'text',
+    header: '',
+    entry: [entrySanitizer(entry)],
+    rows: [],
+    items: [],
+  };
+};
+
+const removeBadItems = (entries) => {
+  if (typeof entries === 'string') return entries;
+  const fixedItems = R.filter(entry => safeBlank(entry.type) !== 'irrelevant', entries);
+  return R.reduce((acc, con) => R.append(removeBadItems(safeArray(con.entry)), acc), [], fixedItems);
+};
 
 const itemFormat = item => ({
   name: safeBlank(item.name),
@@ -98,8 +153,12 @@ const itemFormat = item => ({
   armor: armorFormat(item),
   magic: magicFormat(item),
   age: safeBlank(item.age),
-  modifier: safeBlank(item.modifier.__text),
+  modifier: safeBlank(safeObject(item.modifier).__text),
   source: safeBlank(item.source),
+  entry: removeBadItems(R.concat(R.map(entrySmoother, safeArray(item.entries)), R.map(entrySmoother, safeArray(item.additionalEntries)))),
 });
 
-console.log(itemFormat);
+const generatedItems = R.map(item => itemFormat(item), items);
+const filteredItems = R.filter(item => item.age === '' && item.type !== '$', generatedItems);
+const cleanedItems = R.map(R.dissoc('age'), filteredItems);
+console.log(cleanedItems);
