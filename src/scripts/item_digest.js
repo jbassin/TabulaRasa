@@ -112,11 +112,20 @@ const entrySanitizer = (text) => {
 
 const colLabelFormatter = (colLabels) => {
   const safeColLabels = safeArray(colLabels);
-  if (R.isEmpty(safeColLabels)) {
-    return safeColLabels;
+  const sanitizedColLabels = R.map(entrySanitizer, safeColLabels);
+  if (R.isEmpty(sanitizedColLabels)) {
+    return sanitizedColLabels;
   }
-  return [safeColLabels];
+  return [sanitizedColLabels];
 };
+
+const rowFormatter = rows => R.map(row => R.map((cell) => {
+  if (typeof cell === 'object') {
+    return entrySanitizer(safeBlank(cell.entry));
+  }
+  return safeBlank(cell);
+}, row), rows);
+const safeRowFormatter = rows => rowFormatter(safeArray(rows));
 
 const entrySmoother = (entry) => {
   if (typeof entry === 'object') {
@@ -124,7 +133,7 @@ const entrySmoother = (entry) => {
       type: entryType(safeBlank(entry.type)),
       header: safeBlank(entry.name),
       entry: R.map(entrySmoother, safeArray(entry.entries)),
-      rows: R.concat(colLabelFormatter(entry.colLabels), safeArray(entry.rows)),
+      rows: R.concat(colLabelFormatter(entry.colLabels), safeRowFormatter(entry.rows)),
       items: R.map(entrySmoother, safeArray(entry.items)),
     };
   }
@@ -141,8 +150,6 @@ const removeBadItems = (entries) => {
   if (typeof entries === 'string') return entries;
   const fixedItems = R.filter(entry => safeBlank(entry.type) !== 'irrelevant', entries);
   return R.map(item => R.assoc('entry', removeBadItems(safeArray(item.entry)), item), fixedItems);
-  // return R.reduce((acc, con) => R.append(removeBadItems(safeArray(con.entry)), acc), [], fixedItems);
-  // return fixedItems;
 };
 
 const itemFormat = item => ({
