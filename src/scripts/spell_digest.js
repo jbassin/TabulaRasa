@@ -63,6 +63,43 @@ const timeFormat = spell => R.map(safeSingleTimeFormat, safeArray(spell.time));
 
 const safeEntryFormat = entries => removeBadItems(R.map(entrySmoother, safeArray(entries)));
 
+const classFormat = (classes) => {
+  const oldClassFormat = safeArray(classes.fromClassList);
+  const oldSubclassFormat = safeArray(classes.fromSubclass);
+  const newClassFormat = R.reduce((acc, con) => {
+    const className = safeBlank(con.name);
+    if (className === '') return acc;
+    return R.append(className, acc);
+  }, [], oldClassFormat);
+  const newSubclassFormat = R.reduce((acc, con) => {
+    const subclassName = safeBlank(safeObject(con.subclass).name);
+    const subclassParent = safeBlank(safeObject(con.class).name);
+    const subsubclassName = safeBlank(safeObject(con.subclass).subSubclass);
+    return R.append({
+      name: subclassName,
+      parent: subclassParent,
+      child: subsubclassName,
+    }, acc);
+  }, [], oldSubclassFormat);
+  const rogueSubclass = R.includes('Wizard', newClassFormat) ? {
+    name: 'Arcane Trickster',
+    parent: 'Rogue',
+    child: '',
+  } : {};
+  const fighterSubclass = R.includes('Wizard', newClassFormat) ? {
+    name: 'Eldritch Knight',
+    parent: 'Fighter',
+    child: '',
+  } : {};
+  const sorcererSubclass = R.includes('Cleric', newClassFormat) ? {
+    name: 'Divine Soul',
+    parent: 'Sorcerer',
+    child: '',
+  } : {};
+  const cleanedSubclassFormat = R.filter(subclass => safeBlank(subclass.name) !== '', R.concat(newSubclassFormat, rogueSubclass, fighterSubclass, sorcererSubclass));
+  return [newClassFormat, cleanedSubclassFormat];
+};
+
 const spellFormat = spell => ({
   name: safeBlank(spell.name),
   source: safeBlank(spell.source),
@@ -73,4 +110,7 @@ const spellFormat = spell => ({
   durations: durationFormat(spell),
   time: timeFormat(spell),
   entry: R.concat(safeEntryFormat(spell.entries), safeEntryFormat(spell.entriesHigherLevel)),
+  classes: classFormat(safeObject(spell.classes))[0],
+  subclasses: classFormat(safeObject(spell.classes))[1],
+  ritual: safeFalse(safeObject(spell.meta).ritual),
 });
