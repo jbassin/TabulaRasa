@@ -1,5 +1,6 @@
 import {
   entrySmoother,
+  removeBadItems,
   safeArray,
   safeBlank,
   safeFalse,
@@ -89,13 +90,6 @@ const magicFormat = item => ({
   isWondrous: safeFalse(item.wondrous),
   charges: safeZeroInt(item.charges),
 });
-
-const removeBadItems = (entries) => {
-  if (typeof entries === 'string') return entries;
-  const fixedItems = R.filter(entry => safeBlank(entry.type) !== 'irrelevant', entries);
-  if (typeof R.head(safeArray(fixedItems.entry)) === 'string') return fixedItems;
-  return R.map(item => (typeof R.head(safeArray(item.entry)) === 'string' ? item : R.assoc('entry', removeBadItems(safeArray(item.entry)), item)), fixedItems);
-};
 
 const typeFormat = (item) => {
   const type = safeBlank(item.type).toUpperCase();

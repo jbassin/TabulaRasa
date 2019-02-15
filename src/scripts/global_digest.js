@@ -48,6 +48,13 @@ const rowFormatter = rows => R.map(row => R.map((cell) => {
 }, row), rows);
 const safeRowFormatter = rows => rowFormatter(safeArray(rows));
 
+const removeBadItems = (entries) => {
+  if (typeof entries === 'string') return entries;
+  const fixedItems = R.filter(entry => safeBlank(entry.type) !== 'irrelevant', entries);
+  if (typeof R.head(safeArray(fixedItems.entry)) === 'string') return fixedItems;
+  return R.map(item => (typeof R.head(safeArray(item.entry)) === 'string' ? item : R.assoc('entry', removeBadItems(safeArray(item.entry)), item)), fixedItems);
+};
+
 const entrySmoother = (entry) => {
   if (typeof entry === 'object') {
     return {
@@ -69,6 +76,7 @@ const entrySmoother = (entry) => {
 
 export {
   entrySmoother,
+  removeBadItems,
   safeArray,
   safeBlank,
   safeFalse,
