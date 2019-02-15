@@ -97,10 +97,46 @@ const removeBadItems = (entries) => {
   return R.map(item => (typeof R.head(safeArray(item.entry)) === 'string' ? item : R.assoc('entry', removeBadItems(safeArray(item.entry)), item)), fixedItems);
 };
 
+const typeFormat = (item) => {
+  const type = safeBlank(item.type).toUpperCase();
+  switch (type) {
+    case 'RG': return 'Ring';
+    case 'G': return 'Adventuring Gear';
+    case 'M': return 'Melee Weapon';
+    case 'AT': return 'Artisan Tool';
+    case '': return 'Wondrous Item';
+    case 'SCF': return 'Spellcasting Focus';
+    case 'S': return 'Shield';
+    case 'HA': return 'Heavy Armor';
+    case 'MA': return 'Medium Armor';
+    case 'LA': return 'Light Armor';
+    case 'A': return 'Ammunition';
+    case 'EXP': return 'Explosive';
+    case 'AF': return 'Ammunition (Firearm)';
+    case 'R': return 'Ranged';
+    case 'GS': return 'Gaming Set';
+    case 'INS': return 'Instrument';
+    case 'MNT': return 'Mount';
+    case 'OTH': return '';
+    case 'P': return 'Potion';
+    case 'RD': return 'Rod';
+    case 'SC': return 'Scroll';
+    case 'TAH': return 'Tack and Harness';
+    case 'T': return 'Tool';
+    case 'TG': return 'Trade Good';
+    case 'VEH': return 'Vehicle';
+    case 'WD': return 'Wand';
+    default: {
+      if (safeFalse(item.technology) !== false) return 'Staff';
+      return '$';
+    }
+  }
+};
+
 const itemFormat = item => ({
   name: safeBlank(item.name),
   rarity: safeBlank(item.rarity),
-  type: safeBlank(item.type),
+  type: typeFormat(item),
   weight: safeZeroString(item.weight),
   value: safeZeroString(item.value),
   weapon: weaponFormat(item),
@@ -115,4 +151,14 @@ const itemFormat = item => ({
 const generatedItems = R.map(item => itemFormat(item), items);
 const filteredItems = R.filter(item => item.age === '' && item.type !== '$', generatedItems);
 const cleanedItems = R.map(R.dissoc('age'), filteredItems);
-console.log(cleanedItems);
+const sortFunc = (first, second) => {
+  if (first.name > second.name) {
+    return 1;
+  }
+  if (first.name < second.name) {
+    return -1;
+  }
+  return 0;
+};
+const sortedItems = R.sort(sortFunc, cleanedItems);
+console.log(sortedItems);
