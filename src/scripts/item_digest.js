@@ -16,7 +16,7 @@ const R = require('ramda');
 const HOME_DIR = os.homedir();
 const MAIN_DIR = path.join(HOME_DIR, '.tabularasa');
 const DATA_DIR = path.join(MAIN_DIR, 'data');
-// const ITEM_DIR = path.join(DATA_DIR, 'items');
+const ITEM_DIR = path.join(DATA_DIR, 'items');
 
 const itemFile = fs.readFileSync(path.join(DATA_DIR, 'items.json'), 'utf-8');
 const basicItemFile = fs.readFileSync(path.join(DATA_DIR, 'other_items.json'), 'utf-8');
@@ -161,4 +161,10 @@ const sortFunc = (first, second) => {
   return 0;
 };
 const sortedItems = R.sort(sortFunc, cleanedItems);
-console.log(sortedItems);
+
+const fileWriter = (item) => {
+  const fileName = `${R.replace(/\s/g, '_', item.name).toLowerCase()}.json`;
+  const filePath = path.join(ITEM_DIR, fileName);
+  fs.writeFileSync(filePath, JSON.stringify(item));
+};
+R.map(fileWriter, sortedItems);
