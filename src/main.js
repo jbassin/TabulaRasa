@@ -5,8 +5,10 @@ import store from './store';
 
 Vue.config.productionTip = false;
 // const DEBUG = false;
-
+//
 // const load = require('./scripts/init')(DEBUG);
+//
+// console.log(load);
 require('./scripts/item_digest');
 
 new Vue({
