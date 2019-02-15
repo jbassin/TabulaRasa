@@ -1,5 +1,6 @@
 const R = require('ramda');
-
+const path = require('path');
+const fs = require('fs');
 
 const sanitize = R.curry((defaultValue, givenValue) => (givenValue == null ? defaultValue : givenValue));
 const safeBlank = sanitize('');
@@ -20,7 +21,7 @@ const entryType = (type) => {
 };
 
 const entrySanitizer = (text) => {
-  const directives = R.match(/{@(.*?)\s(.*?)}/g, text);
+  const directives = R.match(/{@(.*?)\s(.*?)}/g, String(safeBlank(text)));
   const replaceables = R.reduce((acc, con) => {
     const textFinder = R.pipe(R.split(' '), R.tail, R.map(R.replace(/}/g, '')), R.join(' '), R.split('|'), R.head);
     return R.append({
@@ -32,7 +33,7 @@ const entrySanitizer = (text) => {
 };
 
 const colLabelFormatter = (colLabels) => {
-  const safeColLabels = safeArray(colLabels);
+  const safeColLabels = safeBlank(colLabels);
   const sanitizedColLabels = R.map(entrySanitizer, safeColLabels);
   if (R.isEmpty(sanitizedColLabels)) {
     return sanitizedColLabels;
@@ -42,9 +43,10 @@ const colLabelFormatter = (colLabels) => {
 
 const rowFormatter = rows => R.map(row => R.map((cell) => {
   if (typeof cell === 'object') {
-    return entrySanitizer(safeBlank(cell.entry));
+    if (safeBlank(cell.entry) !== '') return entrySanitizer(safeBlank(cell.entry));
+    return `${safeZeroInt(safeObject(cell.roll).min)} \u2014 ${safeZeroInt(safeObject(cell.roll).max)}`;
   }
-  return safeBlank(cell);
+  return entrySanitizer(safeBlank(cell));
 }, row), rows);
 const safeRowFormatter = rows => rowFormatter(safeArray(rows));
 
@@ -74,9 +76,16 @@ const entrySmoother = (entry) => {
   };
 };
 
+const fileWriter = R.curry((directory, item) => {
+  const fileName = `${R.replace(/[\/'\s]+/g, '_', String(item.name)).toLowerCase()}.json`;
+  const filePath = path.join(directory, fileName);
+  fs.writeFileSync(filePath, JSON.stringify(item));
+});
+
 export {
   entrySmoother,
   removeBadItems,
+  fileWriter,
   safeArray,
   safeBlank,
   safeFalse,

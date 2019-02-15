@@ -1,6 +1,7 @@
 import {
   entrySmoother,
   removeBadItems,
+  fileWriter,
   safeArray,
   safeBlank,
   safeFalse,
@@ -8,6 +9,9 @@ import {
   safeZeroInt,
 } from './global_digest';
 
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 const R = require('ramda');
 
 const rangeFormat = (spell) => {
@@ -49,6 +53,7 @@ const singleDurationFormat = (duration) => {
     type: safeBlank(duration.type).toLowerCase(),
     time: safeZeroInt(safeDuration.amount),
     unit: safeBlank(safeDuration.type),
+    concentration: safeFalse(duration.concentration),
   };
 };
 const safeSingleDurationFormat = duration => singleDurationFormat(safeObject(duration));
@@ -96,7 +101,7 @@ const classFormat = (classes) => {
     parent: 'Sorcerer',
     child: '',
   } : {};
-  const cleanedSubclassFormat = R.filter(subclass => safeBlank(subclass.name) !== '', R.concat(newSubclassFormat, rogueSubclass, fighterSubclass, sorcererSubclass));
+  const cleanedSubclassFormat = R.filter(subclass => safeBlank(subclass.name) !== '', R.reduce(R.concat, [], [newSubclassFormat, [rogueSubclass], [fighterSubclass], [sorcererSubclass]]));
   return [newClassFormat, cleanedSubclassFormat];
 };
 
@@ -114,3 +119,22 @@ const spellFormat = spell => ({
   subclasses: classFormat(safeObject(spell.classes))[1],
   ritual: safeFalse(safeObject(spell.meta).ritual),
 });
+
+const DATA_DIR = path.join(os.homedir(), '.tabularasa', 'data');
+const MAGIC_DIR = path.join(DATA_DIR, 'spells');
+
+const magicFile = fs.readFileSync(path.join(DATA_DIR, 'spells.json'), 'utf-8');
+const magicJSON = JSON.parse(magicFile);
+const newFormat = R.map(spellFormat, magicJSON.spell);
+const sortFunc = (first, second) => {
+  if (first.name > second.name) {
+    return 1;
+  }
+  if (first.name < second.name) {
+    return -1;
+  }
+  return 0;
+};
+const sortedSpells = R.sort(sortFunc, newFormat);
+const spellWriter = fileWriter(MAGIC_DIR);
+R.map(spellWriter, sortedSpells);

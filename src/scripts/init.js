@@ -48,10 +48,12 @@ module.exports = (DEBUG) => {
   const classes = readAllJSON('classes');
   const subclasses = readAllJSON('subclasses');
   const items = readAllJSON('items');
+  const spells = readAllJSON('spells');
 
   return {
     classes,
     subclasses,
     items,
+    spells,
   };
 };

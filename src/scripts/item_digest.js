@@ -1,6 +1,7 @@
 import {
   entrySmoother,
   removeBadItems,
+  fileWriter,
   safeArray,
   safeBlank,
   safeFalse,
@@ -156,9 +157,5 @@ const sortFunc = (first, second) => {
 };
 const sortedItems = R.sort(sortFunc, cleanedItems);
 
-const fileWriter = (item) => {
-  const fileName = `${R.replace(/\s/g, '_', item.name).toLowerCase()}.json`;
-  const filePath = path.join(ITEM_DIR, fileName);
-  fs.writeFileSync(filePath, JSON.stringify(item));
-};
-R.map(fileWriter, sortedItems);
+const itemWriter = fileWriter(ITEM_DIR);
+R.map(itemWriter, sortedItems);
