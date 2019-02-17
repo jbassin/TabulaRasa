@@ -12,9 +12,12 @@ export default {
   name: 'app',
   created() {
     const { getter: itemGetter, setter: itemSetter } = this.$storeMutators(this, 'items');
-    const { getter: spellGetter, setter: spellSetter } this.$storeMutators(this, 'spells')
+    const { getter: spellGetter, setter: spellSetter } = this.$storeMutators(this, 'spells');
     itemSetter('setItems', { items: load.items });
-    console.log(itemGetter('weapons'));
+    console.log(itemGetter('shields'));
+    spellSetter('setSpells', { spells: load.spells });
+    const spellClassLookup = className => spellGetter('spellsClass')(className);
+    console.log(spellClassLookup('bard'));
   },
 };
 </script>
