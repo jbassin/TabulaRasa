@@ -4,6 +4,7 @@ import tbLandingPage from './views/tbLandingPage.vue';
 import tbCreate from './views/tbCreate.vue';
 import tbAbout from './views/tbAbout.vue';
 import tbQuit from './views/tbQuit.vue';
+import tbHomebrew from './views/tbHomebrew.vue';
 
 Vue.use(Router);
 
@@ -27,6 +28,10 @@ export default new Router({
       path: '/quit',
       name: 'quit',
       component: tbQuit,
+    }, {
+      path: '/homebrew',
+      name: 'homebrew',
+      component: tbHomebrew,
     },
   ],
 });
