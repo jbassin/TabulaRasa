@@ -4,33 +4,23 @@ import router from './router';
 import store from './store';
 
 Vue.config.productionTip = false;
-const DEBUG = false;
 
 const R = require('ramda');
 
-Vue.prototype.$R = R;
-
-Vue.prototype.$storeGet = R.curry(function storeGet(namespace, variable) {
-  return this.$store.state[namespace][variable];
-});
-
-Vue.prototype.$storeSet = R.curry(function storeSet(namespace, command, ...rest) {
-  return this.$store.dispatch({
-    type: `${namespace}/${command}`,
-    ...rest,
-  });
-});
-
-Vue.prototype.$storeMutators = function storeMutators(namespace) {
-  return {
-    getter: this.$storeGet(namespace),
-    setter: this.$storeSet(namespace),
-  };
+const addNewVueFunction = (name, value) => {
+  Object.defineProperty(Vue.prototype, `$${name}`, { value });
 };
 
-const load = require('./scripts/init')(DEBUG);
-
-console.log(load);
+addNewVueFunction('R', R);
+addNewVueFunction('storeGet', R.curry((vm, namespace, variable) => vm.$store.getters[`${namespace}/${variable}`]));
+addNewVueFunction('storeSet', R.curry((vm, namespace, command, rest) => vm.$store.dispatch({
+  type: `${namespace}/${command}`,
+  ...rest,
+})));
+addNewVueFunction('storeMutators', (vm, namespace) => ({
+  getter: vm.$storeGet(vm, namespace),
+  setter: vm.$storeSet(vm, namespace),
+}));
 
 new Vue({
   router,

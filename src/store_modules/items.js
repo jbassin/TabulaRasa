@@ -1,29 +1,31 @@
 /* eslint-disable no-param-reassign */
+const R = require('ramda');
+
 const state = () => ({
-  items: [],
+  localItems: [],
 });
 
 const mutations = {
-  ADD_ITEM: (store, { item }) => {
-    store.items = this.$R.append(item, store.items);
+  SET_ITEMS(store, { items }) {
+    store.localItems = items;
   },
 };
 
 const actions = {
-  setItems: ({ commit }, { items }) => {
-    this.$R.map(item => commit({
-      type: 'ADD_ITEM',
-      item,
-    }), items);
+  setItems({ commit }, { items }) {
+    commit({
+      type: 'SET_ITEMS',
+      items,
+    });
   },
 };
 
 const getters = {
-  items: store => store.items,
-  weapons: store => this.$R.filter(item => item.weapon.isWeapon, store.items),
-  armor: store => this.$R.filter(item => item.armor.isArmor, store.items),
-  magic: store => this.$R.filter(item => item.magic.isMagic, store.items),
-  shields: store => this.$R.filter(item => item.type.toLowerCase() === 'shield', store.items),
+  items(store) { return store.localItems; },
+  weapons(store) { return R.filter(item => item.weapon.isWeapon, store.localItems); },
+  armor(store) { return R.filter(item => item.armor.isArmor, store.localItems); },
+  magic(store) { return R.filter(item => item.magic.isMagic, store.localItems); },
+  shields(store) { return R.filter(item => item.type.toLowerCase() === 'shield', store.localItems); },
 };
 
 export default {
