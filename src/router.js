@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import tbLandingPage from './views/tbLandingPage.vue';
 import tbCreate from './views/tbCreate.vue';
 import tbAbout from './views/tbAbout.vue';
+import tbQuit from './views/tbQuit.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,10 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: tbAbout,
+    }, {
+      path: '/quit',
+      name: 'quit',
+      component: tbQuit,
     },
   ],
 });

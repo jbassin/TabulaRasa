@@ -33,6 +33,9 @@ export default {
         }, {
           destination: '/about',
           text: 'About this Program',
+        }, {
+          destination: '/quit',
+          text: 'Quit the Program',
         },
       ],
     };

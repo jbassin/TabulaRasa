@@ -14,6 +14,7 @@ module.exports = {
     'max-len': 'off',
     'no-useless-escape': 'off',
     'global-require': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',
