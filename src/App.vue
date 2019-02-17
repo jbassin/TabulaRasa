@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    Hello
+  <div id="app" class="container">
+    <h1 class="title is-1">
+      Hello
+    </h1>
   </div>
 </template>
 
@@ -23,5 +25,6 @@ export default {
 </script>
 
 <style>
-
+  @import "~bulmaswatch/lux/bulmaswatch.min.css";
+  @import "~@fortawesome/fontawesome-free/css/all.min.css";
 </style>
