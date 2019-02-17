@@ -3,7 +3,7 @@
         :style="tbLandingPageButton">
     <router-link :to="destination"
                  tag="button"
-                 class="button is-rounded is-primary">
+                 class="button is-primary">
       {{ this.text }}
     </router-link>
     <br>

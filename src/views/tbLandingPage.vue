@@ -1,7 +1,7 @@
 <template>
   <div class="container has-text-centered">
     <div class="columns">
-      <div class="column is-one-fifth is is-offset-two-fifths notification is-white">
+      <div class="column is-one-fifth is is-offset-two-fifths landing-page-buttons">
         <tb-landing-page-button v-for="(button, index) in this.buttons"
                                 :key="index"
                                 :destination="button.destination"
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-  .notification {
+  .landing-page-buttons {
     margin-top: 145px;
   }
 </style>

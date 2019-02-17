@@ -8,10 +8,25 @@
     <title>tabula-rasa</title>
   </head>
   <body>
+    <canvas id="gradient-background"></canvas>
     <noscript>
       <strong>We're sorry but tabula-rasa doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div id="z-wrapper">
+      <div id="app"></div>
+    </div>
   </body>
+  <style>
+    #z-wrapper {
+      z-index: 1;
+      position: relative;
+    }
+    #gradient-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </html>

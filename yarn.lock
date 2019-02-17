@@ -4593,6 +4593,11 @@ graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
 
+granim@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/granim/-/granim-2.0.0.tgz#cd3905e97dd5cb5ef0b164b68d5073ac43f1eec6"
+  integrity sha512-aqa79K49ndjoUBtpYzlO8sKcuVQED+5axvX0SveqTLDR+Fa2G42AGntuQ36ysCFOWGVkWCLfHowFwk+D/9rGDg==
+
 grapheme-splitter@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
