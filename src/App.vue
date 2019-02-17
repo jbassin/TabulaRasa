@@ -41,7 +41,6 @@ export default {
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(100px);
     }
     to {
       opacity: 100%;

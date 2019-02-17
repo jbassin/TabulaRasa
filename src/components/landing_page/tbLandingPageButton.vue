@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     tbLandingPageButton() {
-      return `animation-delay: ${this.transitionOffset * 0.5 + 2}s`;
+      return `animation-delay: ${this.transitionOffset * 0.5 + 0.8}s`;
     },
   },
 };

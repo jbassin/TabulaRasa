@@ -2,9 +2,28 @@
   <div class="container has-text-centered"
        :class="header">
     <div class="notification is-primary">
-      <p class="title is-1">
-        Tabula Rasa
-      </p>
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <router-link tag="button"
+                         to="/"
+                         class="button is-large is-primary">
+              <span class="icon">
+                <transition name="fade">
+                  <i v-if="!isRoot"
+                     class="fas fa-home fa-lg"></i>
+                </transition>
+              </span>
+            </router-link>
+          </div>
+        </div>
+        <div class="level-item">
+          <p class="title is-1">
+            Tabula Rasa
+          </p>
+        </div>
+        <div class="level-right"></div>
+      </nav>
     </div>
   </div>
 </template>
@@ -13,6 +32,9 @@
 export default {
   name: 'tbHeader',
   computed: {
+    isRoot() {
+      return this.$route.path === '/';
+    },
     header() {
       if (this.$route.path === '/') return 'moveDown';
       return 'moveUp';
@@ -28,11 +50,9 @@ export default {
   @keyframes moveDown {
     from {
       top: 0;
-      opacity: 0;
     }
     to {
       top: 100px;
-      opacity: 100%;
     }
   }
   @keyframes moveUp {
@@ -46,11 +66,13 @@ export default {
   .moveDown {
     animation-name: moveDown;
     animation-duration: 2s;
+    animation-timing-function: ease-in-out;
     top: 100px;
   }
   .moveUp {
     animation-name: moveUp;
     animation-duration: 2s;
-    top: 0px;
+    animation-timing-function: ease-out;
+    top: 0;
   }
 </style>
