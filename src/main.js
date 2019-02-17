@@ -7,20 +7,16 @@ Vue.config.productionTip = false;
 
 const R = require('ramda');
 
-const addNewVueFunction = (name, value) => {
-  Object.defineProperty(Vue.prototype, `$${name}`, { value });
-};
-
-addNewVueFunction('R', R);
-addNewVueFunction('storeGet', R.curry((vm, namespace, variable) => vm.$store.getters[`${namespace}/${variable}`]));
-addNewVueFunction('storeSet', R.curry((vm, namespace, command, rest) => vm.$store.dispatch({
+Vue.prototype.$R = R;
+Vue.prototype.$storeGet = R.curry((vm, namespace, variable) => vm.$store.getters[`${namespace}/${variable}`]);
+Vue.prototype.$storeSet = R.curry((vm, namespace, command, rest) => vm.$store.dispatch({
   type: `${namespace}/${command}`,
   ...rest,
-})));
-addNewVueFunction('storeMutators', (vm, namespace) => ({
+}));
+Vue.prototype.$storeMutators = (vm, namespace) => ({
   getter: vm.$storeGet(vm, namespace),
   setter: vm.$storeSet(vm, namespace),
-}));
+});
 
 new Vue({
   router,
