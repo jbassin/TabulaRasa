@@ -13,6 +13,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'max-len': 'off',
     'no-useless-escape': 'off',
+    'global-require': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

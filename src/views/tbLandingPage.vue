@@ -31,7 +31,7 @@ export default {
           destination: '/homebrew',
           text: 'View and Modify Data',
         }, {
-          destination: '/info',
+          destination: '/about',
           text: 'About this Program',
         },
       ],

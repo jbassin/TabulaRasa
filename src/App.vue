@@ -10,20 +10,18 @@
 <script>
 import TbHeader from './components/header/tbHeader.vue';
 
-const DEBUG = false;
-const load = require('./scripts/init')(DEBUG);
+// const DEBUG = false;
+// const load = require('./scripts/init')(DEBUG);
 
 export default {
   name: 'app',
   components: { TbHeader },
   created() {
-    const { getter: itemGetter, setter: itemSetter } = this.$storeMutators(this, 'items');
-    const { getter: spellGetter, setter: spellSetter } = this.$storeMutators(this, 'spells');
-    itemSetter('setItems', { items: load.items });
-    console.log(itemGetter('shields'));
-    spellSetter('setSpells', { spells: load.spells });
-    const spellClassLookup = className => spellGetter('spellsClass')(className);
-    console.log(spellClassLookup('bard'));
+    const { setter: configSetter } = this.$storeMutators(this, 'config');
+    configSetter('setVersion', {
+      versionNumber: '0.1.0',
+      versionName: 'Aboleth',
+    });
   },
 };
 </script>
