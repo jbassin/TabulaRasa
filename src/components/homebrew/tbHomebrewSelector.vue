@@ -1,5 +1,5 @@
 <template>
-  <div class="tile is-child notification enter-smooth"
+  <div class="notification enter-smooth"
        :class="isSelected">
     <div class="level">
       <div class="level-left"></div>
@@ -57,6 +57,7 @@ export default {
     animation-delay: 2.0s;
     animation-fill-mode: both;
     animation-name: fadeIn;
+    margin-bottom: 5px;
   }
   .selected {
     -webkit-animation: select 1.0s ease-in-out normal both;

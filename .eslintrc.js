@@ -15,6 +15,7 @@ module.exports = {
     'no-useless-escape': 'off',
     'global-require': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'vue/no-side-effects-in-computed-properties': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

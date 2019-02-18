@@ -10,8 +10,8 @@
 <script>
 import TbHeader from './components/header/tbHeader.vue';
 
-// const DEBUG = false;
-// const load = require('./scripts/init')(DEBUG);
+const DEBUG = false;
+const load = require('./scripts/init')(DEBUG);
 
 export default {
   name: 'app',
@@ -21,6 +21,16 @@ export default {
     configSetter('setVersion', {
       versionNumber: '0.1.0',
       versionName: 'Aboleth',
+    });
+
+    const { setter: spellSetter } = this.$storeMutators(this, 'spells');
+    spellSetter('setSpells', {
+      spells: load.spells,
+    });
+
+    const { setter: itemSetter } = this.$storeMutators(this, 'items');
+    itemSetter('setItems', {
+      items: load.items,
     });
   },
 };
