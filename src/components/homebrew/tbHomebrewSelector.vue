@@ -1,8 +1,12 @@
 <template>
-  <div class="tile notification enter-smooth"
+  <div class="tile is-child notification enter-smooth"
        :class="isSelected">
-    <div class="has-text-centered has-text-white">
-      <p class="is-subtitle is-4">{{ this.name }}</p>
+    <div class="level">
+      <div class="level-left"></div>
+      <div class="level-item subtitle is-5">
+        {{ this.name }}
+      </div>
+      <div class="level-right"></div>
     </div>
   </div>
 </template>
@@ -59,5 +63,8 @@ export default {
   }
   .deselected {
     -webkit-animation: deselect 1.0s ease-in-out normal both;
+  }
+  .title {
+    padding-bottom: 8px;
   }
 </style>

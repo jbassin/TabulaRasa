@@ -5,15 +5,17 @@
         View and Modify Data:
       </p>
       <div class="tile is-ancestor">
-        <div class="tile is-4 is-vertical">
+        <div class="tile is-parent is-4 is-vertical">
           <tb-homebrew-selector v-for="(name, index) of this.homebrewItems"
                                 :key="index"
                                 :name="name"
                                 :active-selector="activeSelector"
                                 @click.native="activeSelector = name"/>
         </div>
-        <div class="tile is-right-column notification is-danger">
-          TESTING
+        <div class="tile is-right-column">
+          <transition name="fade" mode="out-in">
+            <tb-homebrew-spells-view v-if="this.activeSelector === 'Spells'"/>
+          </transition>
         </div>
       </div>
     </div>
@@ -22,13 +24,14 @@
 
 <script>
 import TbHomebrewSelector from '../components/homebrew/tbHomebrewSelector.vue';
+import TbHomebrewSpellsView from '../components/homebrew/tbHomebrewSpellsView.vue';
 
 export default {
   name: 'tbHomebrew',
-  components: { TbHomebrewSelector },
+  components: { TbHomebrewSelector, TbHomebrewSpellsView },
   data() {
     return {
-      activeSelector: 'Test',
+      activeSelector: '',
       homebrewItems: [
         'Races',
         'Classes',
