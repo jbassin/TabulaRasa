@@ -1,9 +1,11 @@
 <template>
   <div class="level">
     <div class="level-left">
-      <p class="subtitle is-6">
+      <p class="level-item subtitle is-6">
         {{ this.name }}
       </p>
+    </div>
+    <div class="level-right">
     </div>
   </div>
 </template>

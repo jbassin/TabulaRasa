@@ -64,15 +64,9 @@ export default {
     }
   }
   .moveDown {
-    animation-name: moveDown;
-    animation-duration: 2s;
-    animation-timing-function: ease-in-out;
-    top: 100px;
+    -webkit-animation: 2.0s ease-in-out both moveDown;
   }
   .moveUp {
-    animation-name: moveUp;
-    animation-duration: 2s;
-    animation-timing-function: ease-out;
-    top: 0;
+    -webkit-animation: 2.0s ease-out both moveUp;
   }
 </style>

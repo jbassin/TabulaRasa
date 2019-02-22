@@ -105,10 +105,10 @@ export default {
     }
   }
   .blur-enter-active {
-    animation: 0.4s ease-in-out reverse both blur;
+    -webkit-animation: 0.4s ease-in-out reverse both blur;
   }
   .blur-leave-active {
-    animation: 0.4s ease-in-out both blur;
+    -webkit-animation: 0.4s ease-in-out both blur;
   }
   .container {
     margin-top: 15px;

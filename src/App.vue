@@ -55,9 +55,9 @@ export default {
     }
   }
   .fade-enter-active {
-    animation: 1.0s ease-in-out both fadeIn;
+    -webkit-animation: 1.0s ease-in-out both fadeIn;
   }
   .fade-leave-active {
-    animation: 1.0s ease-in-out reverse both fadeIn;
+    -webkit-animation: 1.0s ease-in-out reverse both fadeIn;
   }
 </style>

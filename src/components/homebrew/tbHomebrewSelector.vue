@@ -51,12 +51,7 @@ export default {
     }
   }
   .enter-smooth {
-    animation-duration: 1.0s;
-    animation-direction: normal;
-    animation-timing-function: ease-in-out;
-    animation-delay: 2.0s;
-    animation-fill-mode: both;
-    animation-name: fadeIn;
+    -webkit-animation: 1.0s ease-in-out 2.0s normal both fadeIn;
     margin-bottom: 5px;
   }
   .selected {
