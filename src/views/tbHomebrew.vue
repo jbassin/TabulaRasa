@@ -26,7 +26,7 @@
                   All
                 </button>
               </li>
-              <li v-for="letter of 'abcdefghijklmnopqrstuvwxyz'.split('')"
+              <li v-for="letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')"
                   :key="letter"
                   @click="activeLetter = letter">
                 <button class="button is-primary is-small"
@@ -43,6 +43,14 @@
           </transition-group>
         </div>
       </div>
+    </div>
+    <div id="scroll-button">
+      <a class="button is-rounded is-primary"
+         @click="scrollToTop">
+        <span class="icon is-large">
+          <i class="fas fa-arrow-circle-up"></i>
+        </span>
+      </a>
     </div>
   </div>
 </template>
@@ -70,9 +78,12 @@ export default {
     };
   },
   methods: {
-    setActiveLetter(letter) {
-      console.log(letter);
-      this.activeLetter = letter;
+    scrollToTop() {
+      const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      if (currentScroll > 0) {
+        window.requestAnimationFrame(this.scrollToTop);
+        window.scrollTo(0, currentScroll - (currentScroll / 5));
+      }
     },
   },
   computed: {
@@ -124,5 +135,10 @@ export default {
   }
   .input {
     margin-bottom: 5px;
+  }
+  #scroll-button {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
   }
 </style>
