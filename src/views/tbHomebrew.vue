@@ -21,14 +21,16 @@
             <ul>
               <li>
                 <button class="button is-primary is-small"
-                        @click="activeLetter = ''">
+                        @click="activeLetter = ''"
+                        :class="[activeLetter === '' ? '' : 'has-text-link']">
                   All
                 </button>
               </li>
               <li v-for="letter of 'abcdefghijklmnopqrstuvwxyz'.split('')"
                   :key="letter"
                   @click="activeLetter = letter">
-                <button class="button is-primary is-small">
+                <button class="button is-primary is-small"
+                        :class="[activeLetter === letter ? '' : 'has-text-link']">
                   {{ letter }}
                 </button>
               </li>
@@ -100,15 +102,19 @@ export default {
   @keyframes blur {
     from {
     }
+    80% {
+      opacity: 15%;
+    }
     to {
-      filter: blur(10px);
+      filter: blur(3px);
+      opacity: 0;
     }
   }
   .blur-enter-active {
-    -webkit-animation: 0.4s ease-in-out reverse both blur;
+    -webkit-animation: 0.8s ease-in-out reverse both blur;
   }
   .blur-leave-active {
-    -webkit-animation: 0.4s ease-in-out both blur;
+    -webkit-animation: 0.8s ease-in-out both blur;
   }
   .container {
     margin-top: 15px;
