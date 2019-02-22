@@ -19,13 +19,23 @@
         <div class="column is-right-column">
           <nav class="breadcrumb has-dot-separator is-small is-centered" aria-label="breadcrumbs">
             <ul>
-              <li><button class="button is-primary is-small">All</button></li>
+              <li>
+                <button class="button is-primary is-small"
+                        @click="activeLetter = ''">
+                  All
+                </button>
+              </li>
               <li v-for="letter of 'abcdefghijklmnopqrstuvwxyz'.split('')"
-                  :key="letter"><button class="button is-primary is-small">{{ letter }}</button></li>
+                  :key="letter"
+                  @click="activeLetter = letter">
+                <button class="button is-primary is-small">
+                  {{ letter }}
+                </button>
+              </li>
             </ul>
           </nav>
-          <transition-group name="fade" mode="out-in">
-            <tb-row-item v-for="rowEntry of sortedHomebrewData"
+          <transition-group name="blur">
+            <tb-row-item v-for="rowEntry of filteredHomebrewData"
                          :key="rowEntry"
                          :name="rowEntry"/>
           </transition-group>
@@ -45,6 +55,7 @@ export default {
   data() {
     return {
       activeSelector: '',
+      activeLetter: '',
       searchBar: '',
       homebrewItems: [
         'Races',
@@ -55,6 +66,12 @@ export default {
         'Items',
       ],
     };
+  },
+  methods: {
+    setActiveLetter(letter) {
+      console.log(letter);
+      this.activeLetter = letter;
+    },
   },
   computed: {
     homebrewData() {
@@ -71,11 +88,28 @@ export default {
       const sortedStringSimilarities = this.$R.map(row => row.target, this.$R.filter(row => row.rating > 0.2, this.$R.sortBy(this.$R.prop('rating'))(stringSimilarities.ratings)));
       return this.$R.reverse(sortedStringSimilarities);
     },
+    filteredHomebrewData() {
+      if (this.activeLetter === '') return this.sortedHomebrewData;
+      return this.$R.filter(row => this.$R.head(row) === this.activeLetter.toUpperCase(), this.sortedHomebrewData);
+    },
   },
 };
 </script>
 
 <style scoped>
+  @keyframes blur {
+    from {
+    }
+    to {
+      filter: blur(10px);
+    }
+  }
+  .blur-enter-active {
+    animation: 0.4s ease-in-out reverse both blur;
+  }
+  .blur-leave-active {
+    animation: 0.4s ease-in-out both blur;
+  }
   .container {
     margin-top: 15px;
   }
